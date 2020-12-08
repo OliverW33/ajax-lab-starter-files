@@ -7,7 +7,40 @@
     <title>XHR with XML Example</title>
     <link rel="stylesheet" href="css/main.css" />
   </head>
+  <script>
+    (function() {
+      var api = "data/buses.xml";
+      var myXHR = new XMLHttpRequest();
+      var busList = document.querySelector(".busList");
+      var adList = "";
+      myXHR.open("GET", api, true);
+      myXHR.addEventListener("readystatechange", showData);
+      myXHR.send();
+      function showData() {
+      if (myXHR.readyState == 4) {
+      console.dir(myXHR.responseXML);
+      }
+    }
 
+    if (myXHR.readyState == 4) {
+      console.dir(myXHR.responseXML);
+      var buses = myXHR.responseXML.getElementsByTagName("bus");
+      // console.dir(buses)
+      for(var bus of buses){
+      // console.dir(bus)
+      var start = bus.getElementsByTagName("start");
+      console.dir(start);
+      adList += "<li>Start: "
+      adList += start[0].innerHTML
+      adList += " Destination: "
+      adList += bus.getElementsByTagName("destination")[0].innerHTML
+      adList += "</li>"
+      }
+      busList.innerHTML = adList;
+      }
+  })();
+
+  </script>
   <body>
     <div class="container">
       <h1>XHR with XML Example</h1>
